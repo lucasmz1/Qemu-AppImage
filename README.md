@@ -3,6 +3,7 @@
 <br> Thank you for sharing this project across the internet! <br/>
 <br> If you like it don't forget to give an star. <br/>
 <br> By the way this is an unofficial project. <br/>
+<br>There are two versions updated and avaiable here, Universal which is intended to work in every linux distro and Jammy which is intended to run in glibc 2.25 and above<br/>
 ########################################################################
 
 
