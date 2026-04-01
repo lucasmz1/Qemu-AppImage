@@ -1,6 +1,7 @@
 #!/bin/bash
 sudo apt-get install desktop-file-utils debootstrap schroot perl git wget xz-utils bubblewrap autoconf coreutils fakeroot -y
-wget -q "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage" -O appimagetool && chmod a+x appimagetool
+#wget -q "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage" -O appimagetool && chmod a+x appimagetool
+wget -c -q "https://github.com/VHSgunzo/uruntime/releases/download/v0.5.7/uruntime-appimage-dwarfs-x86_64" -O uruntime && chmod a+x uruntime
 wget -c -q "https://archive.archlinux.org/iso/"
 cat index.html | tail -n 3 | awk '{print $2}' | cut -d "/" -f 1 | cut -d "\"" -f 2 | xargs -i -t -exec wget -r --no-parent -np -l 1 -A "*.zst" -erobots=off -P . "https://archive.archlinux.org/iso/{}/archlinux-bootstrap-x86_64.tar.zst"
 find ${GITHUB_WORKSPACE} -name '*.zst' | xargs -i -t -exec mv {} ${GITHUB_WORKSPACE}
@@ -14,4 +15,10 @@ cp ${GITHUB_WORKSPACE}/files/AppRun ${GITHUB_WORKSPACE}/arch/ && chmod a+x ${GIT
 mv ${GITHUB_WORKSPACE}/arch/root.x86_64/ ${GITHUB_WORKSPACE}/arch/root/
 find ${GITHUB_WORKSPACE}/arch/root/usr/bin/ -type f -exec strip {} +
 find ${GITHUB_WORKSPACE}/arch/root/usr/lib/ -type f -exec strip {} \;
-ARCH=x86_64 ./appimagetool -n ./arch/
+#ARCH=x86_64 ./appimagetool -n ./arch/
+taskset -c 0 ./uruntime --appimage-mkdwarfs -f \
+	--set-owner 0 --set-group 0 \
+	--no-history --no-create-timestamp \
+	--compression zstd:level=22 -S26 -B8 \
+	--header uruntime \
+	-i "./arch" -o "QEMU-x86_64.AppImage"
