@@ -11,12 +11,12 @@ cp /etc/resolv.conf -t ${GITHUB_WORKSPACE}/arch/root.x86_64/etc/ && cp ${GITHUB_
 cd ${GITHUB_WORKSPACE}
 sudo chroot ./arch/root.x86_64/ /bin/bash -c "pacman -Syyu --noconfirm && pacman -S qemu-full jack2 --noconfirm && pacman -Scc --noconfirm && rm -rf /var/cache/pacman/pkg/*"
 cp ${GITHUB_WORKSPACE}/files/AppRun ${GITHUB_WORKSPACE}/arch/ && chmod a+x ${GITHUB_WORKSPACE}/arch/AppRun && cp ${GITHUB_WORKSPACE}/files/qemu.svg -t ${GITHUB_WORKSPACE}/arch/ && cp ${GITHUB_WORKSPACE}/files/qemu.desktop -t ${GITHUB_WORKSPACE}/arch/
-mv ${GITHUB_WORKSPACE}/arch/root.x86_64/  ${GITHUB_WORKSPACE}/arch/root/
+mv ${GITHUB_WORKSPACE}/arch/root.x86_64/ ${GITHUB_WORKSPACE}/arch/root/
 find ${GITHUB_WORKSPACE}/arch/root/usr/bin/ -type f -exec strip {} +
 find ${GITHUB_WORKSPACE}/arch/root/usr/lib/ -type f -exec strip {} \;
 ./uruntime --appimage-mkdwarfs -f \
-	--set-owner 0 --set-group 0 \
-	--no-history --no-create-timestamp \
-	--compression zstd:level=22 -S26 -B8 \
-	--header uruntime \
-	-i "./arch" -o "QEMU-x86_64.AppImage"
+    --set-owner 0 --set-group 0 \
+    --no-history --no-create-timestamp \
+    --compression zstd:level=15 -S22 -B20 \
+    --header uruntime \
+    -i "./arch" -o "QEMU-x86_64.AppImage"
