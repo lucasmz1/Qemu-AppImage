@@ -30,6 +30,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y desktop-file-utils \
            bison \
+           libglib2.0-utils \
            libcbor-dev \
            docutils-common \
            flex \
@@ -158,6 +159,7 @@ jobs:
            --enable-user \
            --enable-virglrenderer \
            --enable-usb-redir \
+           --disable-dbus-display \
            --prefix=${GITHUB_WORKSPACE}/lucas/usr/
           make
           make install
