@@ -105,6 +105,7 @@ jobs:
            libepoxy-dev \
            libiconv-hook-dev \
            libunistring-dev
+           wget -q "https://github.com/astral-sh/python-build-standalone/releases/download/20260929/cpython-3.12.14+20260929-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz" -O python.tar.gz ; tar xf python.tar.gz ; export PATH="${GITHUB_WORKSPACE}/python/bin/:$PATH"
           wget -q "https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.11.tar.xz" && tar xf gnutls-3.7.11.tar.xz && cd ./gnutls-3.7.11 && ./configure && make && sudo make install && cd ..
           pkg-config --modversion gnutls
           wget -q "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage" -O linuxdeploy ; chmod a+x linuxdeploy
