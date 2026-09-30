@@ -31,6 +31,8 @@ jobs:
           echo $PATH
            apt-get update
            apt-get install -y desktop-file-utils \
+           wget \
+           curl \
            bison \
            libcbor-dev \
            docutils-common \
