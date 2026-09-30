@@ -29,6 +29,7 @@ jobs:
       - name: Make AppImage
         run: |
           echo $PATH
+          modprobe fuse
            apt-get update
            apt-get install -y desktop-file-utils \
            libfuse2 \
@@ -173,7 +174,7 @@ jobs:
           cp -f qemu.desktop ${GITHUB_WORKSPACE}/lucas/
           cp -f qemu_logo_no_text.svg ${GITHUB_WORKSPACE}/lucas/
           cp -f libunionpreload.so ${GITHUB_WORKSPACE}/lucas/
-          find -name 'linuxdeploy**' -type f -exec {} --appdir ${GITHUB_WORKSPACE}/lucas/ \;
+          find -name 'linuxdeploy**' -type f -exec {} --appimage-extract-and-run --appdir ${GITHUB_WORKSPACE}/lucas/ \;
           cd ${GITHUB_WORKSPACE} && cp qemu.desktop lucas/ && find lucas/ -depth -iname 'libglib-2.0.so.0' -type f -delete
           find ${GITHUB_WORKSPACE}/lucas/usr/bin/ -type f | xargs strip
           find ${GITHUB_WORKSPACE}/lucas/usr/libexec/ -type f | xargs strip
