@@ -28,8 +28,7 @@ jobs:
 
       - name: Make AppImage
         run: |
-           echo $PATH
-           modprobe fuse
+          echo $PATH
            apt-get update
            apt-get install -y desktop-file-utils \
            libfuse2 \
@@ -185,7 +184,7 @@ jobs:
           UPINFO="gh-releases-zsync|$GITHUB_REPOSITORY_OWNER|$REPO|$TAG|*x86_64.AppImage.zsync"
           cd ${GITHUB_WORKSPACE}
           ###./uruntime --appimage-mkdwarfs -f --set-owner 0 --set-group 0 --no-history --no-create-timestamp --compression zstd:level=22 -S26 -B8 --header uruntime -i ${GITHUB_WORKSPACE}/lucas/ -o QEMU-"$VERSION"-"$ARCH".AppImage
-          ./appimagetool -u "$UPINFO" ${GITHUB_WORKSPACE}/lucas/
+          ./appimagetool --appimage-extract-and-run -u "$UPINFO" ${GITHUB_WORKSPACE}/lucas/
           
           mkdir dist
           mv *.AppImage* dist/
