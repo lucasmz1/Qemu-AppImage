@@ -29,7 +29,6 @@ jobs:
       - name: Make AppImage
         run: |
           echo $PATH
-          modprobe fuse
            apt-get update
            apt-get install -y desktop-file-utils \
            libfuse2 \
