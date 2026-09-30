@@ -29,8 +29,8 @@ jobs:
       - name: Make AppImage
         run: |
           echo $PATH
-          sudo apt-get update
-          sudo apt-get install -y desktop-file-utils \
+           apt-get update
+           apt-get install -y desktop-file-utils \
            bison \
            libcbor-dev \
            docutils-common \
@@ -109,24 +109,24 @@ jobs:
            libunistring-dev
           wget -q "https://github.com/astral-sh/python-build-standalone/releases/download/20260929/cpython-3.12.14+20260929-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz" -O python.tar.gz ; tar xf python.tar.gz ; export PATH="${GITHUB_WORKSPACE}/python/bin/:$PATH"
           cd "${GITHUB_WORKSPACE}/python/bin/" ; ./python -m pip install --upgrade pip ; ./pip install packaging ; cd "${GITHUB_WORKSPACE}"
-          wget -q "https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.11.tar.xz" && tar xf gnutls-3.7.11.tar.xz && cd ./gnutls-3.7.11 && ./configure && make && sudo make install && cd ..
+          wget -q "https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.11.tar.xz" && tar xf gnutls-3.7.11.tar.xz && cd ./gnutls-3.7.11 && ./configure && make &&  make install && cd ..
           pkg-config --modversion gnutls
           wget -q "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage" -O linuxdeploy ; chmod a+x linuxdeploy
           ####wget -q "https://github.com/VHSgunzo/uruntime/releases/download/v0.3.9/uruntime-appimage-dwarfs-x86_64" -O uruntime ; chmod a+x uruntime
           wget -q "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage" -O appimagetool ; chmod a+x appimagetool
-          sudo pip3 install meson
+           pip3 install meson
           wget -c -q "https://download.gnome.org/sources/glib/2.80/glib-2.80.2.tar.xz"
           tar -xf glib-2.80.2.tar.xz
           cd glib-2.80.2
           meson setup _build
           meson compile -C _build
-          sudo meson install -C _build
+           meson install -C _build
           cd ${GITHUB_WORKSPACE}
           #git clone https://gitlab.freedesktop.org/virgl/virglrenderer.git
           #cd virglrenderer/
           #meson build
           #cd build
-          #sudo ninja install
+          # ninja install
           #cd ${GITHUB_WORKSPACE}
           mkdir lucas
           mkdir -p lucas/usr/
