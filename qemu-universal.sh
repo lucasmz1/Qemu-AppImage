@@ -19,6 +19,7 @@ sudo mv ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin_2.so ${GITHUB_WOR
 sudo ln -frs ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin-2.so ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin-2.so.0
 chmod a+x ${GITHUB_WORKSPACE}/arch/AppRun
 cp ${GITHUB_WORKSPACE}/files/qemu.svg -t ${GITHUB_WORKSPACE}/arch/
+ln ${GITHUB_WORKSPACE}/arch/qemu.svg ${GITHUB_WORKSPACE}/arch/.DirIcon
 cp ${GITHUB_WORKSPACE}/files/qemu.desktop -t ${GITHUB_WORKSPACE}/arch/
 mv ${GITHUB_WORKSPACE}/arch/root.x86_64/ ${GITHUB_WORKSPACE}/arch/root/
 find ${GITHUB_WORKSPACE}/arch/root/usr/bin/ -type f -exec strip {} +
