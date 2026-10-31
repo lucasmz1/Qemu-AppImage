@@ -3,5 +3,5 @@ Name=QEMU
 Exec=qemu-system-x86_64
 Terminal=true
 Type=Application
-Icon=qemu_logo_no_text
+Icon=qemu
 Categories=System;Emulator;
