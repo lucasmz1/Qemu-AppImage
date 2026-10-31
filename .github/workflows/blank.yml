@@ -171,7 +171,8 @@ jobs:
           cd ${GITHUB_WORKSPACE}
           cp -f AppRun ${GITHUB_WORKSPACE}/lucas/
           cp -f qemu.desktop ${GITHUB_WORKSPACE}/lucas/
-          cp -f qemu_logo_no_text.svg ${GITHUB_WORKSPACE}/lucas/
+          cp -f ${GITHUB_WORKSPACE}/files/qemu.png ${GITHUB_WORKSPACE}/lucas/
+          ln ${GITHUB_WORKSPACE}/lucas/qemu.png ${GITHUB_WORKSPACE}/lucas/.DirIcon
           cp -f libunionpreload.so ${GITHUB_WORKSPACE}/lucas/
           find -name 'linuxdeploy**' -type f -exec {} --appimage-extract-and-run --appdir ${GITHUB_WORKSPACE}/lucas/ \;
           cd ${GITHUB_WORKSPACE} && cp qemu.desktop lucas/ && find lucas/ -depth -iname 'libglib-2.0.so.0' -type f -delete
