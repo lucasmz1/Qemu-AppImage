@@ -205,8 +205,8 @@ jobs:
             /usr/lib/x86_64-linux-gnu/dri/* \
             /usr/lib/x86_64-linux-gnu/spa-0.2/*/* || true
             
-          cp -r /usr/local/share/OVMF/ ./share/
-          cp -r /usr/local/share/qemu/ ./share/
+          cp -r /usr/local/share/OVMF/ ./share/ || true
+          cp -r /usr/local/share/qemu/ ./share/ || true
           ln -frs share/ ./shared/
           ./sharun -g
           chmod a+x AppRun
