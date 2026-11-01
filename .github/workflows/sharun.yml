@@ -182,9 +182,9 @@ jobs:
           /usr/lib/x86_64-linux-gnu/vdpau/* \
           /usr/lib/x86_64-linux-gnu/gconv/*/* \
           /usr/lib/x86_64-linux-gnu/gio/modules/* \
-	  /usr/lib/x86_64-linux-gnu/gdk-pixbuf-*/*/*/* \
-	  /usr/lib/x86_64-linux-gnu/alsa-lib/* \
-	  /usr/lib/x86_64-linux-gnu/pulseaudio/* \
+	  	  /usr/lib/x86_64-linux-gnu/gdk-pixbuf-*/*/*/* \
+	  	  /usr/lib/x86_64-linux-gnu/alsa-lib/* \
+	  	  /usr/lib/x86_64-linux-gnu/pulseaudio/* \
           /usr/lib/x86_64-linux-gnu/pipewire-0.3/* \
           /usr/lib/x86_64-linux-gnu/alsa-lib/* \
           /usr/lib/x86_64-linux-gnu/dri/* \
