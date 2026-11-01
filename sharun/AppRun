@@ -1,0 +1,10 @@
+#!/bin/bash
+HERE="$(dirname "$(readlink -f "${0}")")"
+export PATH="${HERE}"/bin:"${PATH}"
+export XDG_DATA_DIRS="${HERE}"/share:"${HERE}"/share/qemu:"${HERE}"/share/OVMF:"${HERE}"/share/edk2:"${XDG_DATA_DIRS}"
+if [[ "${1}" =~ ^(elf2dmp|qemu-aarch64|qemu-aarch64_be|qemu-alpha|qemu-arm|qemu-armeb|qemu-bridge-helper|qemu-cris|qemu-edid|qemu-ga|qemu-hexagon|qemu-hppa|qemu-i386|qemu-img|qemu-io|qemu-keymap|qemu-loongarch64|qemu-m68k|qemu-microblaze|qemu-microblazeel|qemu-mips|qemu-mips64|qemu-mips64el|qemu-mipsel|qemu-mipsn32|qemu-mipsn32el|qemu-nbd|qemu-nios2|qemu-or1k|qemu-ppc|qemu-ppc64|qemu-ppc64le|qemu-pr-helper|qemu-riscv32|qemu-riscv64|qemu-s390x|qemu-sh4|qemu-sh4eb|qemu-sparc|qemu-sparc32plus|qemu-sparc64|qemu-storage-daemon|qemu-system-aarch64|qemu-system-alpha|qemu-system-arm|qemu-system-avr|qemu-system-cris|qemu-system-hppa|qemu-system-i386|qemu-system-loongarch64|qemu-system-m68k|qemu-system-microblaze|qemu-system-microblazeel|qemu-system-mips|qemu-system-mips64|qemu-system-mips64el|qemu-system-mipsel|qemu-system-nios2|qemu-system-or1k|qemu-system-ppc|qemu-system-ppc64|qemu-system-riscv32|qemu-system-riscv64|qemu-system-rx|qemu-system-s390x|qemu-system-sh4|qemu-system-sh4eb|qemu-system-sparc|qemu-system-sparc64|qemu-system-tricore|qemu-system-x86_64|qemu-system-xtensa|qemu-system-xtensaeb|qemu-x86_64|qemu-xtensa|qemu-xtensaeb|virtfs-proxy-helper)$ ]]; then
+	args=( "${@}" )
+	args[0]="${1}"
+	set "${args[@]}"
+fi
+exec "${@}"
