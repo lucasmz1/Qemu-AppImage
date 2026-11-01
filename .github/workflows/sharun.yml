@@ -1,0 +1,247 @@
+name: SHARUN CI
+
+# Controls when the action will run.
+on:
+  # Build at 00:00 every 6th day
+  schedule:
+    - cron: "0 0 */6 * *"
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+    paths-ignore: [ '**/README.md' ]
+  pull_request:
+    branches: [ main ]
+    paths-ignore: [ '**/README.md' ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    container:
+      image: ubuntu:22.04
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      - name: Make AppImage
+        run: |
+          echo $PATH
+           apt-get update
+           apt-get install -y desktop-file-utils \
+           xvfb \
+           libfuse2 \
+           wget \
+           curl \
+           bison \
+           libcbor-dev \
+           docutils-common \
+           flex \
+           gettext \
+           git \
+           libaio-dev \
+           libaio1 \
+           libbluetooth-dev \
+           libbrlapi-dev \
+           libbz2-dev \
+           libcap-ng-dev \
+           libcapstone-dev \
+           libcurl4-gnutls-dev \
+           libfdt-dev \
+           libglib2.0-dev \
+           libgtk-3-dev \
+           libibverbs-dev \
+           libiscsi-dev \
+           libiscsi7 \
+           libjpeg8-dev \
+           liblzo2-dev \
+           libncurses5-dev \
+           libnfs* \
+           libnuma-dev \
+           libpciaccess-dev \
+           libpciaccess0 \
+           libpixman-1-0 \
+           libpixman-1-dev \
+           librbd-dev \
+           librdmacm-dev \
+           libsasl2-dev \
+           libsdl2-dev \
+           libseccomp-dev \
+           libslirp-dev \
+           libslirp0 \
+           libsnappy-dev \
+           libspice-protocol-dev \
+           libspice-server-dev \
+           libspice-server1 \
+           libssh-dev \
+           libusb* \
+           libvde-dev \
+           libvdeplug-dev \
+           libvirglrenderer-dev \
+           libvirglrenderer1 \
+           libvte-2.91-dev \
+           libxen-dev \
+           libxml2-dev \
+           libxml2-utils \
+           libyajl-dev \
+           libyajl2 \
+           libzstd-dev \
+           libzstd1 \
+           ninja-build \
+           pip \
+           pkg-config \
+           python3-venv \
+           slirp* \
+           valgrind \
+           virgl-server \
+           xfslibs-dev \
+           xsltproc \
+           zlib1g-dev \
+           liburing-dev \
+           libcap-ng-dev \
+           libvdeplug-dev \
+           libbrlapi-dev \
+           librados-dev \
+           librbd-dev \
+           libbz2-dev \
+           liblz4-dev \
+           libasound2-dev \
+           libepoxy-dev \
+           libiconv-hook-dev \
+           libunistring-dev
+          wget -q "https://github.com/astral-sh/python-build-standalone/releases/download/20260929/cpython-3.12.14+20260929-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz" -O python.tar.gz ; tar xf python.tar.gz ; export PATH="${GITHUB_WORKSPACE}/python/bin/:$PATH"
+          cd "${GITHUB_WORKSPACE}/python/bin/" ; ./python -m pip install --upgrade pip ; ./pip install packaging ; cd "${GITHUB_WORKSPACE}"
+          wget -q "https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.11.tar.xz" && tar xf gnutls-3.7.11.tar.xz && cd ./gnutls-3.7.11 && ./configure && make &&  make install && cd ..
+          pkg-config --modversion gnutls
+          wget -q "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage" -O linuxdeploy ; chmod a+x linuxdeploy
+          ####wget -q "https://github.com/VHSgunzo/uruntime/releases/download/v0.3.9/uruntime-appimage-dwarfs-x86_64" -O uruntime ; chmod a+x uruntime
+          wget -q "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage" -O appimagetool ; chmod a+x appimagetool
+           pip3 install meson
+          wget -c -q "https://download.gnome.org/sources/glib/2.80/glib-2.80.2.tar.xz"
+          tar -xf glib-2.80.2.tar.xz
+          cd glib-2.80.2
+          meson setup _build
+          meson compile -C _build
+           meson install -C _build
+          cd ${GITHUB_WORKSPACE}
+          #git clone https://gitlab.freedesktop.org/virgl/virglrenderer.git
+          #cd virglrenderer/
+          #meson build
+          #cd build
+          # ninja install
+          #cd ${GITHUB_WORKSPACE}
+          mkdir lucas
+          mkdir -p lucas/usr/
+          mkdir -p lucas/usr/lib/
+          mkdir -p lucas/usr/share/
+          cp -r /usr/share/mime/ lucas/usr/share/
+          git clone https://gitlab.com/qemu-project/qemu.git
+          cd qemu
+          git submodule init
+          git submodule update --recursive
+          ./configure --disable-docs \
+           --enable-alsa \
+           --enable-gio \
+           --enable-gnutls \
+           --enable-gtk \
+           --enable-guest-agent \
+           --enable-kvm \
+           --enable-libssh \
+           --enable-libudev \
+           --enable-libusb \
+           --enable-modules \
+           --enable-nettle \
+           --enable-opengl \
+           --enable-pa \
+           --enable-pixman \
+           --enable-sdl \
+           --enable-slirp \
+           --enable-slirp-smbd \
+           --enable-spice \
+           --enable-spice-protocol \
+           --enable-system \
+           --enable-user \
+           --enable-virglrenderer \
+           --enable-usb-redir \
+           --disable-dbus-display \
+           --prefix=/usr/local
+          make
+          make install
+          cd ${GITHUB_WORKSPACE}
+          mkdir lucas
+          cp -f ${GITHUB_WORKSPACE}/sharun/AppRun ${GITHUB_WORKSPACE}/lucas/
+          cp -f qemu.desktop ${GITHUB_WORKSPACE}/lucas/
+          cp -f ${GITHUB_WORKSPACE}/files/qemu.png ${GITHUB_WORKSPACE}/lucas/
+          ln ${GITHUB_WORKSPACE}/lucas/qemu.png ${GITHUB_WORKSPACE}/lucas/.DirIcon
+          cd lucas/
+          wget -O "sharun" "https://github.com/VHSgunzo/sharun/releases/download/v0.8.1/sharun-x86_64" ; chmod a+x ./sharun
+          xvfb-run -- ./sharun l -p -v -e -s -k /usr/local/bin/* \
+          /usr/local/lib/qemu/* \
+          /usr/lib/x86_64-linux-gnu/vdpau/* \
+          /usr/lib/x86_64-linux-gnu/gconv/*/* \
+          /usr/lib/x86_64-linux-gnu/gio/modules/* \
+	  /usr/lib/x86_64-linux-gnu/gdk-pixbuf-*/*/*/* \
+	  /usr/lib/x86_64-linux-gnu/alsa-lib/* \
+	  /usr/lib/x86_64-linux-gnu/pulseaudio/* \
+          /usr/lib/x86_64-linux-gnu/pipewire-0.3/* \
+          /usr/lib/x86_64-linux-gnu/alsa-lib/* \
+          /usr/lib/x86_64-linux-gnu/dri/* \
+          /usr/lib/x86_64-linux-gnu/spa-0.2/*/* || true
+          cp -r /usr/local/share/OVMF/ ./share/
+          cp -r /usr/local/share/qemu/ ./share/
+          ln -frs share/ ./shared/
+          ./sharun -g
+          chmod a+x AppRun
+          cd ${GITHUB_WORKSPACE}
+          export ARCH=x86_64
+          export VERSION=git
+          REPO="Qemu-AppImage"
+          TAG="continuous-stable-sharun"
+          UPINFO="gh-releases-zsync|$GITHUB_REPOSITORY_OWNER|$REPO|$TAG|*x86_64.AppImage.zsync"
+          cd ${GITHUB_WORKSPACE}
+          ###./uruntime --appimage-mkdwarfs -f --set-owner 0 --set-group 0 --no-history --no-create-timestamp --compression zstd:level=22 -S26 -B8 --header uruntime -i ${GITHUB_WORKSPACE}/lucas/ -o QEMU-"$VERSION"-"$ARCH".AppImage
+          ./appimagetool --appimage-extract-and-run -u "$UPINFO" ${GITHUB_WORKSPACE}/lucas/
+          
+          mkdir dist
+          mv *.AppImage* dist/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AppImage
+          path: 'dist/*.AppImage*'
+
+  release:
+    needs: [build]
+    permissions:
+      contents: write
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Download AppImage artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: AppImage
+
+      - name: Delete Previous Release
+        run: |
+          gh release delete "${APP_VERSION}" --repo "${GITHUB_REPOSITORY}" --cleanup-tag -y || echo "No release to delete"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Continuous build sharun"
+          tag_name: continuous-stable-sharun
+          prerelease: false
+          draft: false
+          generate_release_notes: false
+          make_latest: true
+          files: |
+            *.AppImage*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
