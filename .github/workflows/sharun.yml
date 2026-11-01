@@ -205,8 +205,8 @@ jobs:
             /usr/lib/x86_64-linux-gnu/libVkLayer*.so* \
             /usr/lib/x86_64-linux-gnu/libvulkan_* \
             /usr/lib/x86_64-linux-gnu/libvulkan* \
-            /usr/lib/x86_64-linux-gnu/spa-0.2/*/* || true
             /usr/lib/x86_64-linux-gnu/lib*GL*.so* \
+            /usr/lib/x86_64-linux-gnu/spa-0.2/*/* || true
           cp -r /usr/local/share/OVMF/ ./share/ || true
           cp -r /usr/local/share/qemu/ ./share/ || true
           ln -frs share/ ./shared/
