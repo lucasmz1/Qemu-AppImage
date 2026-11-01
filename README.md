@@ -17,6 +17,10 @@ if you had doubts about the use you can find me in Telegram: @zainotel.
 
 <br> useful commands! <br/>
 
+<br>If you are on a laptop append this command to capture the touchpad<br/>
+
+<br>`-usb -device usb-tablet`<br/>
+
 <br> this one bellow creat an hard drive <br/>
 
 <br> `./QEMU-x86_64.AppImage qemu-img create -f qcow2 windows10.qcow2 30G` <br/>
