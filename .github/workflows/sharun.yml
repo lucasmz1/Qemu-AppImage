@@ -211,7 +211,7 @@ jobs:
           cp -r /usr/local/share/qemu/ ./share/ || true
           ln -frs share/ ./shared/
           mkdir -p ./shared/lib/x86_64-linux-gnu
-          mv -v ./shared/lib/local/qemu/ ./shared/lib/x86_64-linux-gnu/
+          mv -v ./shared/lib/local/lib/x86_64-linux-gnu/qemu/ ./shared/lib/x86_64-linux-gnu/
           ./sharun -g
           chmod a+x AppRun
           
