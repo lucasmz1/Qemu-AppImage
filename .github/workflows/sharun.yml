@@ -189,7 +189,7 @@ jobs:
           
           xvfb-run -- ./sharun l -p -v -e -s -k \
             /usr/local/bin/* \
-            /usr/local/lib/libexec/* \
+            /usr/local/libexec/* \
             /usr/local/lib/x86_64-linux-gnu/qemu/* \
             /usr/lib/x86_64-linux-gnu/vdpau/* \
             /usr/lib/x86_64-linux-gnu/gconv/* \
