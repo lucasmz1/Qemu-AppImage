@@ -140,11 +140,6 @@ jobs:
           #cd build
           # ninja install
           #cd ${GITHUB_WORKSPACE}
-          mkdir lucas
-          mkdir -p lucas/usr/
-          mkdir -p lucas/usr/lib/
-          mkdir -p lucas/usr/share/
-          cp -r /usr/share/mime/ lucas/usr/share/
           git clone https://gitlab.com/qemu-project/qemu.git
           cd qemu
           git submodule init
@@ -205,11 +200,18 @@ jobs:
             /usr/lib/x86_64-linux-gnu/spa-0.2/*/* \
             /usr/lib/x86_64-linux-gnu/dri/* \
             /usr/lib/x86_64-linux-gnu/gtk-3.0/*/* \
+            /usr/lib/x86_64-linux-gnu/lib*CL*.so* \
+            /usr/lib/x86_64-linux-gnu/libvulkan*.so* \
+            /usr/lib/x86_64-linux-gnu/libVkLayer*.so* \
+            /usr/lib/x86_64-linux-gnu/libvulkan_* \
+            /usr/lib/x86_64-linux-gnu/libvulkan* \
             /usr/lib/x86_64-linux-gnu/spa-0.2/*/* || true
-            
+            /usr/lib/x86_64-linux-gnu/lib*GL*.so* \
           cp -r /usr/local/share/OVMF/ ./share/ || true
           cp -r /usr/local/share/qemu/ ./share/ || true
           ln -frs share/ ./shared/
+          mkdir -p ./shared/lib/x86_64-linux-gnu
+          mv -v ./shared/lib/local/qemu/ ./shared/lib/x86_64-linux-gnu/
           ./sharun -g
           chmod a+x AppRun
           
