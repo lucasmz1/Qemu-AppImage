@@ -26,7 +26,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      - name: Make AppImage
+      - name: Build Software
         run: |
           echo $PATH
            apt-get update
@@ -169,39 +169,47 @@ jobs:
            --prefix=/usr/local
           make
           make install
+
+
+      - name: Deploy and Pack AppImage
+        run: |
           cd ${GITHUB_WORKSPACE}
-          mkdir lucas
+          mkdir -p lucas
           cp -f ${GITHUB_WORKSPACE}/sharun/AppRun ${GITHUB_WORKSPACE}/lucas/
           cp -f qemu.desktop ${GITHUB_WORKSPACE}/lucas/
           cp -f ${GITHUB_WORKSPACE}/files/qemu.png ${GITHUB_WORKSPACE}/lucas/
-          ln ${GITHUB_WORKSPACE}/lucas/qemu.png ${GITHUB_WORKSPACE}/lucas/.DirIcon
+          ln -sf ${GITHUB_WORKSPACE}/lucas/qemu.png ${GITHUB_WORKSPACE}/lucas/.DirIcon
+          
           cd lucas/
-          wget -O "sharun" "https://github.com/VHSgunzo/sharun/releases/download/v0.8.1/sharun-x86_64" ; chmod a+x ./sharun
-          xvfb-run -- ./sharun l -p -v -e -s -k /usr/local/bin/* \
-          /usr/local/lib/qemu/* \
-          /usr/lib/x86_64-linux-gnu/vdpau/* \
-          /usr/lib/x86_64-linux-gnu/gconv/*/* \
-          /usr/lib/x86_64-linux-gnu/gio/modules/* \
-	  	  /usr/lib/x86_64-linux-gnu/gdk-pixbuf-*/*/*/* \
-	  	  /usr/lib/x86_64-linux-gnu/alsa-lib/* \
-	  	  /usr/lib/x86_64-linux-gnu/pulseaudio/* \
-          /usr/lib/x86_64-linux-gnu/pipewire-0.3/* \
-          /usr/lib/x86_64-linux-gnu/alsa-lib/* \
-          /usr/lib/x86_64-linux-gnu/dri/* \
-          /usr/lib/x86_64-linux-gnu/spa-0.2/*/* || true
+          wget -O "sharun" "https://github.com/VHSgunzo/sharun/releases/download/v0.8.1/sharun-x86_64"
+          chmod a+x ./sharun
+          
+          xvfb-run -- ./sharun l -p -v -e -s -k \
+            /usr/local/bin/* \
+            /usr/local/lib/qemu/* \
+            /usr/lib/x86_64-linux-gnu/vdpau/* \
+            /usr/lib/x86_64-linux-gnu/gconv/*/* \
+            /usr/lib/x86_64-linux-gnu/gio/modules/* \
+            /usr/lib/x86_64-linux-gnu/gdk-pixbuf-*/*/*/* \
+            /usr/lib/x86_64-linux-gnu/alsa-lib/* \
+            /usr/lib/x86_64-linux-gnu/pulseaudio/* \
+            /usr/lib/x86_64-linux-gnu/pipewire-0.3/* \
+            /usr/lib/x86_64-linux-gnu/dri/* \
+            /usr/lib/x86_64-linux-gnu/spa-0.2/*/* || true
+            
           cp -r /usr/local/share/OVMF/ ./share/
           cp -r /usr/local/share/qemu/ ./share/
           ln -frs share/ ./shared/
           ./sharun -g
           chmod a+x AppRun
+          
           cd ${GITHUB_WORKSPACE}
           export ARCH=x86_64
           export VERSION=git
           REPO="Qemu-AppImage"
           TAG="continuous-stable-sharun"
           UPINFO="gh-releases-zsync|$GITHUB_REPOSITORY_OWNER|$REPO|$TAG|*x86_64.AppImage.zsync"
-          cd ${GITHUB_WORKSPACE}
-          ###./uruntime --appimage-mkdwarfs -f --set-owner 0 --set-group 0 --no-history --no-create-timestamp --compression zstd:level=22 -S26 -B8 --header uruntime -i ${GITHUB_WORKSPACE}/lucas/ -o QEMU-"$VERSION"-"$ARCH".AppImage
+          
           ./appimagetool --appimage-extract-and-run -u "$UPINFO" ${GITHUB_WORKSPACE}/lucas/
           
           mkdir dist
