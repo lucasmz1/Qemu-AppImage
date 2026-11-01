@@ -32,6 +32,14 @@ jobs:
            apt-get update
            apt-get install -y desktop-file-utils \
            xvfb \
+           file \
+           binutils \
+           patchelf \
+           findutils \
+           grep \
+           sed \
+           coreutils \
+           strace \
            libfuse2 \
            wget \
            curl \
