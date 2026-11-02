@@ -6,6 +6,7 @@
 <br>There are two versions updated and avaiable here, Universal which is intended to work in every linux distro and Jammy which is intended to run in glibc 2.25 and above<br/>
 ########################################################################
 
+<h3>There are two versions here one is Universal and sharun which are being developed and built constantly.<h3/>
 
 <br> This is a Prove of the concept that is possible to run a virtual machine from an Appimage. <br/>
 <br> What is the goal? <br/>
