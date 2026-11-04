@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo apt-get install desktop-file-utils debootstrap schroot perl git wget xz-utils bubblewrap autoconf coreutils fakeroot -y
+sudo apt-get install desktop-file-utils debootstrap schroot perl git wget xz-utils bubblewrap autoconf coreutils fakeroot curl git -y
 wget -q "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage" -O appimagetool && chmod a+x appimagetool
 wget -c -q "https://archive.archlinux.org/iso/"
 cat index.html | tail -n 3 | awk '{print $2}' | cut -d "/" -f 1 | cut -d "\"" -f 2 | xargs -i -t -exec wget -r --no-parent -np -l 1 -A "*.zst" -erobots=off -P . "https://archive.archlinux.org/iso/{}/archlinux-bootstrap-x86_64.tar.zst"
@@ -13,10 +13,25 @@ cp ${GITHUB_WORKSPACE}/files/pacman.conf -t ${GITHUB_WORKSPACE}/arch/root.x86_64
 cd ${GITHUB_WORKSPACE}
 sudo chroot ./arch/root.x86_64/ /usr/bin/bash -c "pacman -Syyu --noconfirm && pacman -S qemu-full jack2 gdk-pixbuf2 glycin --noconfirm && rm -rf /var/cache/pacman/pkg/* && exit"
 cp ${GITHUB_WORKSPACE}/files/AppRun ${GITHUB_WORKSPACE}/arch/
-sudo cp ${GITHUB_WORKSPACE}/files/libglycin_2.so ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/
-sudo cp ${GITHUB_WORKSPACE}/files/libglycin_ng.so ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/
-sudo mv ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin_2.so ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin-2.so
-sudo ln -frs ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin-2.so ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin-2.so.0
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+git clone https://github.com/QaidVoid/glycin-ng.git
+cd glycin-ng/src/
+cargo build --release -p glycin-ng-c
+cargo build --release -p glycin-ng-libglycin-shim
+cd ..
+install -Dm755 ./target/release/libglycin_ng.so \
+    ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin_ng.so
+  install -Dm755 ./target/release/libglycin_2.so \
+    ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin-2.so.0
+  install -Dm644 ./include/glycin_ng.h \
+    ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/include/glycin-ng/glycin_ng.h
+  install -Dm644 ./glycin-2-header \
+    ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/include/glycin-2/glycin.h
+cd ${GITHUB_WORKSPACE}
+#sudo cp ${GITHUB_WORKSPACE}/files/libglycin_2.so ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/
+#sudo cp ${GITHUB_WORKSPACE}/files/libglycin_ng.so ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/
+#sudo mv ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin_2.so ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin-2.so
+#sudo ln -frs ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin-2.so ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin-2.so.0
 chmod a+x ${GITHUB_WORKSPACE}/arch/AppRun
 cp ${GITHUB_WORKSPACE}/files/qemu.png -t ${GITHUB_WORKSPACE}/arch/
 ln ${GITHUB_WORKSPACE}/arch/qemu.png ${GITHUB_WORKSPACE}/arch/.DirIcon
