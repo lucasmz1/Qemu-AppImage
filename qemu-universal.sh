@@ -19,14 +19,10 @@ cd glycin-ng/src/
 cargo build --release -p glycin-ng-c
 cargo build --release -p glycin-ng-libglycin-shim
 cd ..
-install -Dm755 ./target/release/libglycin_ng.so \
-    ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin_ng.so
-  install -Dm755 ./target/release/libglycin_2.so \
-    ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin-2.so.0
-  install -Dm644 ./include/glycin_ng.h \
-    ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/include/glycin-ng/glycin_ng.h
-  install -Dm644 ./glycin-2-header \
-    ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/include/glycin-2/glycin.h
+install -Dm755 ./target/release/libglycin_ng.so ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin_ng.so
+install -Dm755 ./target/release/libglycin_2.so ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/libglycin-2.so.0
+install -Dm644 ./include/glycin_ng.h ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/include/glycin-ng/glycin_ng.h
+install -Dm644 ./glycin-2-header ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/include/glycin-2/glycin.h
 cd ${GITHUB_WORKSPACE}
 #sudo cp ${GITHUB_WORKSPACE}/files/libglycin_2.so ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/
 #sudo cp ${GITHUB_WORKSPACE}/files/libglycin_ng.so ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/
