@@ -11,7 +11,7 @@ cp /etc/resolv.conf -t ${GITHUB_WORKSPACE}/arch/root.x86_64/etc/
 cp ${GITHUB_WORKSPACE}/files/mirrorlist -t ${GITHUB_WORKSPACE}/arch/root.x86_64/etc/pacman.d/
 cp ${GITHUB_WORKSPACE}/files/pacman.conf -t ${GITHUB_WORKSPACE}/arch/root.x86_64/etc/
 cd ${GITHUB_WORKSPACE}
-sudo chroot ./arch/root.x86_64/ /usr/bin/bash -c "pacman -Syyu --noconfirm && pacman -S qemu-full jack2 --noconfirm && rm -rf /var/cache/pacman/pkg/* && exit"
+sudo chroot ./arch/root.x86_64/ /usr/bin/bash -c "pacman -Syyu --noconfirm && pacman -S qemu-full jack2 gdk-pixbuf2 glycin --noconfirm && rm -rf /var/cache/pacman/pkg/* && exit"
 cp ${GITHUB_WORKSPACE}/files/AppRun ${GITHUB_WORKSPACE}/arch/
 sudo cp ${GITHUB_WORKSPACE}/files/libglycin_2.so ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/
 sudo cp ${GITHUB_WORKSPACE}/files/libglycin_ng.so ${GITHUB_WORKSPACE}/arch/root.x86_64/usr/lib/
